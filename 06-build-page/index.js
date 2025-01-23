@@ -20,12 +20,15 @@ const createHTML = async () => {
 };
 
 const mergeStyles = async () => {
+  const projectStylesPath = path.join(__dirname, 'project-dist', 'style.css');
+  await writeFile(projectStylesPath, '');
+
   const files = await readdir(path.join(__dirname, 'styles'));
   for (const file of files) {
     if (path.extname(file) === '.css') {
       const input = fs.createReadStream(path.join(__dirname, 'styles', file));
       input.on('data', (chunk) => {
-        fs.appendFile(path.join(projectPath, 'style.css'), chunk, (error) => {
+        fs.appendFile(projectStylesPath, chunk, (error) => {
           if (error) console.error(error.message);
         });
       });
